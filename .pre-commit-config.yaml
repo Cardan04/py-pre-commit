@@ -1,5 +1,5 @@
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/Cardan04/py-pre-commit.git
     rev: v4.5.0
     hooks:
       - id: pygrep
@@ -10,3 +10,4 @@ repos:
           - -e
           - '\bdisplay\b'
         files: \.(py|js|ts|jsx|tsx)$
+
