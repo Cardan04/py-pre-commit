@@ -1,0 +1,12 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: pygrep
+        name: detectar-palavras-proibidas
+        args:
+          - -e
+          - '\bprint\b'
+          - -e
+          - '\bdisplay\b'
+        files: \.(py|js|ts|jsx|tsx)$
