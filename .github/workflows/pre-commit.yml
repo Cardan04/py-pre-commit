@@ -1,27 +1,28 @@
-name: pre-commit
+name: Checks de Qualidade no Pull Request
 
 on:
-  pull_request:
   push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
 
 jobs:
-  run-pre-commit:
+  pre_commit_checks:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+    - name: ⬇️ Checkout do Código
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+    - name: 🐍 Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
 
-      - name: Disable cache temporarily
-        run: echo "Cache disabled due to GitHub outage"
+    - name: ⚙️ Instalar o framework pre-commit
+      run: pip install pre-commit
 
-      - name: Install pre-commit
-        run: pip install pre-commit
-
-      - name: Run pre-commit
-        run: pre-commit run --all-files
+    - name: 🏃 Rodar verificações pre-commit (em todos os arquivos)
+      # O comando 'pre-commit run --all-files' executa as checagens
+      # definidas no .pre-commit-config.yaml em todos os arquivos do projeto.
+      run: pre-commit run --all-files
