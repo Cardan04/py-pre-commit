@@ -1,13 +1,23 @@
 repos:
-  - repo: https://github.com/Cardan04/py-pre-commit.git
-    rev: v4.5.0
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
     hooks:
-      - id: pygrep
-        name: detectar-palavras-proibidas
-        args:
-          - -e
-          - '\bprint\b'
-          - -e
-          - '\bdisplay\b'
-        files: \.(py|js|ts|jsx|tsx)$
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
 
+  # Formatação automática com Black (opcional, mas recomendado)
+  - repo: https://github.com/psf/black
+    rev: 24.3.0
+    hooks:
+      - id: black
+
+  # Hook customizado para bloquear "print" e "display"
+  - repo: local
+    hooks:
+      - id: forbid-print-display
+        name: Forbid print() and display()
+        entry: bash -c 'if grep -Rnw "." -e "print" -e "display"; then echo "❌ Encontrado 'print' ou 'display' no código!"; exit 1; fi'
+        language: system
+        types: [python]
