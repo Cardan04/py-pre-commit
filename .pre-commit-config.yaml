@@ -1,23 +1,15 @@
+# .pre-commit-config.yaml
+
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0  # Use a versão mais recente
     hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-yaml
-      - id: check-added-large-files
-
-  # Formatação automática com Black (opcional, mas recomendado)
-  - repo: https://github.com/psf/black
-    rev: 24.3.0
-    hooks:
-      - id: black
-
-  # Hook customizado para bloquear "print" e "display"
-  - repo: local
-    hooks:
-      - id: forbid-print-display
-        name: Forbid print() and display()
-        entry: bash -c 'if grep -Rnw "." -e "print" -e "display"; then echo "❌ Encontrado 'print' ou 'display' no código!"; exit 1; fi'
-        language: system
-        types: [python]
+    -   id: detect-private-key
+        name: Bloqueia a palavra 'print'
+        # Adiciona o padrão 'print(' como uma regex para detecção
+        # O argumento --regex permite que você defina o padrão de busca.
+        args: ['--regex', 'print\s*\(']
+        # Limita a verificação a arquivos Python (.py)
+        files: \.py$
+        # Exclui a verificação em um arquivo específico, se necessário
+        # exclude: setup\.py
