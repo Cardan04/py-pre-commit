@@ -1,4 +1,3 @@
-def soma(a,b):
- result = a + b
-
-soma
+# meu_arquivo.py
+def main():
+    print("Este código vai falhar no commit.")
