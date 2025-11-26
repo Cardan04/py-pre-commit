@@ -1,0 +1,35 @@
+name: 🚫 Bloqueio de Print em Python
+
+on:
+  # O workflow será executado quando houver um push ou um Pull Request.
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  check_no_prints:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: ⬇️ Checkout do Código
+      # Baixa o código do repositório para o servidor de execução.
+      uses: actions/checkout@v4
+      
+    - name: 🔎 Verificação de chamadas print()
+      # Define o código shell a ser executado.
+      shell: bash
+      run: |
+        echo "Iniciando verificação de 'print()' em arquivos .py..."
+        
+        # O 'grep' procura o padrão 'print(' nos arquivos .py
+        # O '-r' é para busca recursiva em subpastas.
+        # O '--include "*.py"' limita a busca a arquivos Python.
+        # O '--color=always' ajuda a formatar a saída.
+        if grep -r --include "*.py" 'print\s*(' . ; then
+          echo "❌ FALHA: A palavra 'print()' foi encontrada no código Python!"
+          echo "Remova as chamadas 'print()' e use bibliotecas de log adequadas."
+          exit 1  # Retorna código de erro 1, FAZENDO O BUILD FALHAR
+        else
+          echo "✅ Sucesso: Nenhum 'print()' encontrado em arquivos Python."
+        fi
